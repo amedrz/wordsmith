@@ -1,5 +1,4 @@
 require "wordsmith/version"
 
-module Wordsmith
-  # Your code goes here...
+class Wordsmith
 end
