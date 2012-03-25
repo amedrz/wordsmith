@@ -42,12 +42,12 @@ class Wordsmith
         end
       end
 
-      command :init do |opts|
+      command :init, :new, :n do |opts|
         opts.banner = "Usage: wordsmith new (directory)"
         opts.description = "initialize a new book layout"
       end
 
-      command :generate do |opts|
+      command :generate, :g do |opts|
         opts.banner = "Usage: wordsmith generate [options]"
         opts.description = "generate digital formats"
       end
@@ -56,9 +56,6 @@ class Wordsmith
         opts.banner = "Usage: wordsmith publish"
         opts.description = "publish your book to github project page"
       end
-      
-      alias_command :init, 'new', 'n'
-      alias_command :generate, 'g'
 
       @subcommand = opt_parse
       @args = ARGV

@@ -1,14 +1,18 @@
 require 'rubygems'
 require 'yaml'
 
-require 'wordsmith/new'
+require 'wordsmith/init'
 require 'wordsmith/generate'
 require 'wordsmith/publish'
 
 require 'fileutils'
 require 'pp'
 
-class Wordsmith
+class Wordsmith  
+  include Init
+  include Generate
+  include Publish
+  
   attr_accessor :subcommand, :args, :options
   attr_reader :info
   
