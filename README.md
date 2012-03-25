@@ -25,34 +25,34 @@ Now you're good to go.
 
 Wordsmith uses the following folder structure
 
-BOOK_NAME/
-	layout/
-		header.html
-		footer.html
+	BOOK_NAME/
+		layout/
+			header.html
+			footer.html
 
-	assets/
-		images/
-			cover.jpg
-		stylesheets/
-			default.css
-			BOOK_NAME.css	
+		assets/
+			images/
+				cover.jpg
+			stylesheets/
+				default.css
+				BOOK_NAME.css	
 
-	content/	
-		01_title.markdown
-		02_title.markdown
-		03_title.markdown
+		content/	
+			01_title.markdown
+			02_title.markdown
+			03_title.markdown
 
-	content/
-		01_title/
-			01_lorem.markdown
-			02_ipsum.markdown
+		content/
+			01_title/
+				01_lorem.markdown
+				02_ipsum.markdown
 
-	final/
-		BOOK_NAME.epub
-		BOOK_NAME.html
-		BOOK_NAME.format
+		final/
+			BOOK_NAME.epub
+			BOOK_NAME.html
+			BOOK_NAME.format
 
-	Makefile
+		Makefile
 
 The **layout** folder contains the minimum required files for publishing your content 
 online with the default design.
