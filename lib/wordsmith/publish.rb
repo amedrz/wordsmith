@@ -19,13 +19,18 @@ class Wordsmith
 
     # publish compiled html files to a
     # Github project page
-    def publish(from_path = "final/#{@name}/*/**")
-
-      puts "final/#{@name}/"
+    def publish
+      from_path = if File.exists?(File.join(local('final', "#{@name}_html")))
+        File.join(local('final', "#{@name}_html"))
+      elsif File.exists?(File.join(local('final', "#{@name}.html")))
+        File.join(local('final', "#{@name}.html"))
+      end
+      
+      if from_path.blank?
+        raise "Exiting.. Nothing to publish. Have you run 'wordsmith generate'?"
+      end
 
       @base = Git.open(local(".git"))
-
-      puts local(".git")
 
       # Create gh-pages branch if necessary
       if !@base.branches.local.collect{ |a| a.to_s }.include?("gh-pages")

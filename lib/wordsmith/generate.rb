@@ -11,7 +11,7 @@ class Wordsmith
       @files = Dir.glob(content_dir + '/**/*.*').join(" \\\n")
       
       if @files.empty?
-        raise "Exiting.. Nothing to generate in #{content_dir}"
+        raise "Exiting.. Nothing to generate in #{content_dir}. Have you run 'wordsmith new'?"
       end
       
       build_metadata_xml
