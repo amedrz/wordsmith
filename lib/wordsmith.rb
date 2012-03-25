@@ -2,6 +2,7 @@ require 'rubygems'
 require 'nokogiri'
 require 'kindlegen'
 require 'yaml'
+require 'git'
 
 require 'wordsmith/init'
 require 'wordsmith/generate'
@@ -26,7 +27,7 @@ class Wordsmith
     @args = []
     @options = {}
     @config = YAML::parse(File.open(local('.wordsmith'))).transform rescue {}
-    @name = File.basename(WORDSMITH_ROOT)
+    @name = File.basename(local('.'))
   end
 
   def info(message)
