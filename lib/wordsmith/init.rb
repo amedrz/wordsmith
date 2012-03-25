@@ -1,8 +1,8 @@
 class Wordsmith
-  module New
+  module Init
     
     # start a new wordsmith directory with skeleton structure
-    def new(args = [])
+    def init(args = [])
       name = Array(args).shift
       raise "needs a directory name" unless name
       raise "directory already exists" if File.exists?(name)
