@@ -1,5 +1,7 @@
 ---
-edition:  0.1
-language: en
-author:   Your Name
-cover:    assets/images/cover.jpg
+edition:    0.1
+language:   en
+author:     Your Name
+title:      Your Book Title
+cover:      assets/images/cover.jpg
+stylesheet: assets/stylesheets/default.css
