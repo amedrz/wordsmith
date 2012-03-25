@@ -23,7 +23,11 @@ class Wordsmith
     # Github project page
     def publish(from_path = "final/#{@name}/*/**")
 
+      puts "final/#{@name}/"
+
       @base = Git.open(local(".git"))
+
+      puts local(".git")
 
       # Create gh-pages branch if necessary
       if !@base.branches.local.collect{ |a| a.to_s }.include?("gh-pages")
