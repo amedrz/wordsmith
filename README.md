@@ -65,5 +65,5 @@ In the **content** directory you can:
 1. write content as single files
 * use directories to easily manage long chapters
 
-**Please note** that the file names in the **content** folder must snake cased beginning with the number of
+**Please note** that the file names in the 'content' folder must be snake cased and begin with the number of
 the chapter or section (e.g. 01_chapter_one.md).
