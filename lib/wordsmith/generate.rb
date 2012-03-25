@@ -5,21 +5,22 @@ class Wordsmith
     
     # generate the new media
     def generate(args = [])
-      @output = File.join(WORDSMITH_ROOT, 'final', @name)
+      @output = local(File.join('final', @name))
       
-      content_dir = File.join(WORDSMITH_ROOT, 'content')
+      content_dir = local(File.join('content'))
       @files = Dir.glob(content_dir + '/**/*.*').join(" \\\n")
       
       if @files.empty?
-        info "Exiting.. Nothing to generate in #{WORDSMITH_ROOT}"
-        return false
+        raise "Exiting.. Nothing to generate in #{content_dir}"
       end
       
       build_metadata_xml
       
-      @stylesheet = if @config["stylesheet"] && File.exists?(File.join(WORDSMITH_ROOT, @config["stylesheet"]))
-        File.join(WORDSMITH_ROOT, @config["stylesheet"])
+      @stylesheet = if @config["stylesheet"] && File.exists?(local(@config["stylesheet"]))
+        local(@config["stylesheet"])
       end
+      
+      Dir.mkdir(local('final')) unless File.exists?(local('final'))
       
       formats = args.empty? ? OUTPUT_TYPES : args
       formats.each do |format|
@@ -41,7 +42,7 @@ class Wordsmith
     end
     
     def build_metadata_xml
-      metadata = File.join(WORDSMITH_ROOT, 'metadata.xml')
+      metadata = local(File.join('metadata.xml'))
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.metadata('xmlns:dc' => 'http://purl.org/dc/elements/1.1/') {
           xml['dc'].title { xml.text @config["title"] }
@@ -56,11 +57,11 @@ class Wordsmith
     
     def to_html
       info "Generating html..."
-      header = if File.exists?(File.join(WORDSMITH_ROOT, 'layout', 'header.html'))
-        File.join(WORDSMITH_ROOT, 'layout', 'header.html') 
+      header = if File.exists?(local(File.join('layout', 'header.html')))
+        local(File.join('layout', 'header.html'))
       end
-      footer = if File.exists?(File.join(WORDSMITH_ROOT, 'layout', 'footer.html'))
-        File.join(WORDSMITH_ROOT, 'layout', 'footer.html')
+      footer = if File.exists?(local(File.join('layout', 'footer.html')))
+        local(File.join('layout', 'footer.html'))
       end
       cmd = "pandoc -s -S --toc -o #{@output}.html -t html"
       cmd += " -c #{@stylesheet}" if @stylesheet
@@ -71,11 +72,11 @@ class Wordsmith
     
     def to_epub
       info "Generating epub..."
-      metadata = if File.exists?(File.join(WORDSMITH_ROOT, 'metadata.xml'))
-        File.join(WORDSMITH_ROOT, 'metadata.xml')
+      metadata = if File.exists?(local(File.join('metadata.xml')))
+        local(File.join('metadata.xml'))
       end
-      cover = if @config["cover"] && File.exists?(File.join(WORDSMITH_ROOT, @config["cover"]))
-        File.join(WORDSMITH_ROOT, @config["cover"]) 
+      cover = if @config["cover"] && File.exists?(local(File.join(@config["cover"])))
+        local(File.join(@config["cover"]))
       end
       cmd = "pandoc -S -o #{@output}.epub -t epub"
       cmd += " \\\n--epub-metadata=#{metadata}"

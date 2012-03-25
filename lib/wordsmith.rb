@@ -13,7 +13,7 @@ require 'pp'
 class Wordsmith  
   include Init
   include Generate
-  include Publish
+  # include Publish
   
   attr_accessor :subcommand, :args, :options, :name, :files, :stylesheet
   attr_reader :info
@@ -26,7 +26,7 @@ class Wordsmith
     @args = []
     @options = {}
     @config = YAML::parse(File.open(local('.wordsmith'))).transform rescue {}
-    @name = File.basename(WORDSMITH_ROOT)
+    @name = File.basename(local('.'))
   end
 
   def info(message)
