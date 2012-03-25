@@ -35,7 +35,7 @@ Now you're good to go.
     $ wordsmith new [book name]
 
 After that, Wordsmith will create a default directory structure so you just need to start
-creating your own content without worriyng about anything else.
+creating your own content without worrying about anything else.
 
 	book/
 	  .wordsmith
