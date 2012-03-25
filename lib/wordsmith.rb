@@ -35,7 +35,7 @@ class Wordsmith
   end
   
   def local(file)
-    File.expand_path(File.join(WORDSMITH_ROOT, file))
+    File.expand_path(File.join(Dir.pwd, file))
   end
 
   def base(file)
