@@ -1,0 +1,18 @@
+body {
+	font-family: "Lucida Grande",verdana,arial,helvetica,sans-serif;
+	font-size: 14px;
+	color: #444;
+	width: 800px;
+}
+a {
+	color: #00A;
+}
+h1, h2, h3 {
+	margin: 30px 0 10px 0;
+}
+body {
+	display: inline-block;
+}
+div#TOC {
+	border: 1px dashed #00A;
+}
