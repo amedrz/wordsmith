@@ -22,5 +22,5 @@ Gem::Specification.new do |s|
   s.add_dependency('kindlegen')
   s.add_development_dependency("rake")
   s.add_development_dependency("test-unit")
-  s.add_runtime_dependency("git")
+  s.add_dependency("git")
 end
