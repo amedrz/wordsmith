@@ -10,8 +10,6 @@ begin
   # add self to libpath
   $:.unshift File.expand_path("../../lib", bin_file)
 
-  puts $:.first
-  puts Dir.glob($:.first + '/*')
   require 'wordsmith'
 
   # start up the CLI
