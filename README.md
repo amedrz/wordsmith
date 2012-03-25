@@ -14,7 +14,7 @@ The command line interface provides a set of commands to export in the following
 You can also publish your book to your github project page with a single command.
 
 By the way, Wordsmith was heavily based on [git-scribe][gitscribe] gem but with a few
-extra goodies, such a painless installation.
+extra goodies, such as painless installation.
 
 [gitscribe]: https://github.com/schacon/git-scribe
 
