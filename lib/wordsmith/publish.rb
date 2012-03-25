@@ -19,15 +19,11 @@ class Wordsmith
 
   module Publish
 
-    attr_accessor :base
-
-    def generate
-      @base = Git.open(local(".git"))
-    end
-
     # publish compiled html files to a
     # Github project page
     def publish(from_path = "final/#{@name}/*/**")
+
+      @base = Git.open(local(".git"))
 
       # Create gh-pages branch if necessary
       if !@base.branches.local.collect{ |a| a.to_s }.include?("gh-pages")
