@@ -25,5 +25,4 @@ class Wordsmith
     @info ||= []
     @info << message
   end
-
 end

@@ -12,11 +12,13 @@ exporting files in formats such PDF, pubi and publishing online.
 
 ## Installing
 
-You should have [Pandoc](http://johnmacfarlane.net/pandoc/installing.html) 
+First of all, you should have [Pandoc](http://johnmacfarlane.net/pandoc/installing.html) 
 installed in your system.
 
 Next, install the wordsmith ruby gem.
 
     gem install wordsmith
+
+Now you're good to go.
 
 ## Usage
