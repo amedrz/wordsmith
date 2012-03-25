@@ -1,5 +1,3 @@
-require "git"
-
 module Git
   class Lib
     # overwrites https://github.com/schacon/ruby-git/blob/master/lib/git/lib.rb#L486-493

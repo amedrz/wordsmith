@@ -2,6 +2,7 @@ require 'rubygems'
 require 'nokogiri'
 require 'kindlegen'
 require 'yaml'
+require 'git'
 
 require 'wordsmith/init'
 require 'wordsmith/generate'
