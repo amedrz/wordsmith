@@ -13,6 +13,11 @@ The command line interface provides a set of commands to export in the following
 
 You can also publish your book to your github project page with a single command.
 
+By the way, Wordsmith was heavily based on [git-scribe][gitscribe] gem but with a few
+extra goodies, such a painless installation.
+
+[gitscribe]: https://github.com/schacon/git-scribe
+
 ## Installing
 
 First of all, you should have [Pandoc][pandoc] installed in your system.
@@ -29,7 +34,8 @@ Now you're good to go.
 
     $ wordsmith new [book name]
 
-Wordsmith will create the following directory structure:
+After that, Wordsmith will create a default directory structure so you just need to start
+creating your own content without worriyng about anything else.
 
 	book/
 	  .wordsmith
