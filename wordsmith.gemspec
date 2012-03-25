@@ -14,9 +14,10 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "wordsmith"
 
+  s.files         = `git ls-files`
   s.executables   = %w( wordsmith )
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+
 
   s.add_dependency('nokogiri')
   s.add_dependency('kindlegen')
