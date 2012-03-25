@@ -1,4 +1,4 @@
-== A Wordsmith's Manifesto
+## A Wordsmith's Manifesto
 
 I eat, pray and love the written word. My every spare moment is spent reading, 
 writing, or listening to words that bring inspiration, comfort, wisdom and joy. 

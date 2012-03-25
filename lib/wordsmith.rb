@@ -1,4 +1,6 @@
 require 'rubygems'
+require 'nokogiri'
+require 'kindlegen'
 require 'yaml'
 
 require 'wordsmith/init'
@@ -17,7 +19,7 @@ class Wordsmith
   attr_reader :info
   
   OUTPUT_TYPES = ['html', 'epub', 'mobi', 'pdf']
-  WORDSMITH_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..', 'example'))
+  WORDSMITH_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   
   def initialize
     @subcommand = nil
