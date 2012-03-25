@@ -21,8 +21,8 @@ class Wordsmith
 
     attr_accessor :base
 
-    def generate(base = ".")
-      @base = Git.open(base)
+    def generate
+      @base = Git.open(local(".git"))
     end
 
     # publish compiled html files to a
@@ -37,10 +37,11 @@ class Wordsmith
       # Copy html files from master branch
       @base.lib.checkout("master", :path => from_path)
 
-      # add, commit and push changes
+      # add, commit and push changes, then get back to master
       @base.add(".")
       @base.commit("changes to #{@name} public site.")
       @base.push("origin", "gh-pages")
+      @base.checkout("master")
     end
 
     private
