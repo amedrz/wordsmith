@@ -13,7 +13,7 @@ require 'pp'
 class Wordsmith  
   include Init
   include Generate
-  # include Publish
+  include Publish
   
   attr_accessor :subcommand, :args, :options, :name, :files, :stylesheet
   attr_reader :info
