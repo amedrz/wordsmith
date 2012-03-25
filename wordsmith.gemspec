@@ -1,6 +1,6 @@
 # encoding: utf-8
 $LOAD_PATH.unshift 'lib'
-require "wordsmith/version"
+require 'wordsmith/version'
 
 Gem::Specification.new do |s|
   s.name        = "wordsmith"

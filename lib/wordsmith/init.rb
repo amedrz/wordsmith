@@ -16,6 +16,11 @@ class Wordsmith
       FileUtils.cp_r ign, name
       if Git.init(local(name))
         info "Initialized empty Git repository in #{File.join(local(name), '.git')}"
+        @git = Git.open(local(name))
+        @git.add '.'
+        info "git add ."
+        @git.commit 'initial commit'
+        info "git commit -m 'initial commit'"
       end
     end
   end

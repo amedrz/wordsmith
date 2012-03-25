@@ -12,7 +12,7 @@ a single virtuous word. I understand that good writing isn't as easy
 as turning on a tap and letting it flow. Writer's block is 
 an inevitable occupational hazard that hits all of us.
 
-### Different strokes, different folks
+### Different strokes for different folks
 
 I believe in different strokes for different folks. Write for your audiences 
 and write for the medium. There are distinct differences between an advertisement, 

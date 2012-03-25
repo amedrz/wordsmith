@@ -11,7 +11,7 @@ class Wordsmith
       @files = Dir.glob(content_dir + '/**/*.*').join(" \\\n")
       
       if @files.empty?
-        raise "Exiting.. Nothing to generate in #{content_dir}. Have you run 'wordsmith new'?"
+        raise "Exiting.. Nothing to generate in #{content_dir}.\nHave you run 'wordsmith new'?"
       end
       
       build_metadata_xml
@@ -31,7 +31,11 @@ class Wordsmith
             out = run_command(send("to_#{format}"))
           end
           if $?.exitstatus == 0 && out == '' || $?.exitstatus == 1 && format == 'mobi'
-            info "Created #{@output}.#{format}"
+            if format == 'html'
+              info "Created #{@output}/index.html"
+            else
+              info "Created #{@output}.#{format}"
+            end
           else
             raise "#{format} generator failed"
           end
@@ -57,14 +61,18 @@ class Wordsmith
     
     def to_html
       info "Generating html..."
+      html_dir = local(File.join('final', @name))
+      Dir.mkdir(html_dir) unless File.exists?(html_dir)
       header = if File.exists?(local(File.join('layout', 'header.html')))
         local(File.join('layout', 'header.html'))
       end
       footer = if File.exists?(local(File.join('layout', 'footer.html')))
         local(File.join('layout', 'footer.html'))
       end
-      cmd = "pandoc -s -S --toc -o #{@output}.html -t html"
-      cmd += " -c #{@stylesheet}" if @stylesheet
+      `cp -r #{base(File.join('template', 'assets'))} #{html_dir}`
+      cmd = "pandoc -s -S --toc -o #{File.join(html_dir, 'index.html')} -t html"
+      puts @config['stylesheet']
+      cmd += " -c #{@config['stylesheet']}" if @stylesheet
       cmd += " -B #{header}" if header
       cmd += " -A #{footer}" if footer
       cmd += " \\\n#{@files}"
@@ -96,12 +104,29 @@ class Wordsmith
     
     def to_pdf
       info "Generating pdf..."
-      "pandoc -N --toc -o #{@output}.pdf -t pdf #{@files}"
+      engine = ''
+      [['pdftex', 'pdflatex'], ['xetex', 'xelatex'], 'lualatex'].each do |e|
+        if e.is_a? Array
+          cmd, name = e
+        else
+          cmd = name = e
+        end
+        if can_run?(cmd + ' -v')
+          engine = name
+          break 
+        end
+      end
+      cmd = "pandoc -N --toc -o #{@output}.pdf #{@files}"
+      cmd += " --latex-engine=#{engine}" unless engine == ''
     end
     
     def run_command(cmd)
       `#{cmd}`.strip
     end
     
+    def can_run?(cmd)
+      `#{cmd} 2>&1`
+      $?.success?
+    end
   end
 end

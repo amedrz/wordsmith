@@ -1,61 +1,62 @@
-module Git
-  class Lib
-    # overwrites https://github.com/schacon/ruby-git/blob/master/lib/git/lib.rb#L486-493
-    def checkout(branch, opts = {})
-      arr_opts = []
-      arr_opts << '-f' if opts[:force]
-      arr_opts << '-b' << opts[:new_branch] if opts[:new_branch]
-      arr_opts << "-- #{opts[:path]}" if opts[:path]
-      arr_opts << branch
-
-      command('checkout', arr_opts)
-    end
-  end
-end
-
 class Wordsmith
-
   module Publish
 
-    # publish compiled html files to a
-    # Github project page
-    def publish(from_path='')
-      from_path = if File.exists?(local(File.join('final', "#{@name}_html")))
-        local(File.join('final', "#{@name}_html"))
-      elsif File.exists?(local(File.join('final', "#{@name}.html")))
-        local(File.join('final', "#{@name}.html"))
-      end
+    # publish html book to github project page
+    def publish(args = [])
+      options = args.first
+
+      @git = Git.open(local('.'))
       
-      if from_path == ''
-        raise "Exiting.. Nothing to publish. Have you run 'wordsmith generate'?"
+      if options =~ /\.git/ && !@git.remotes.map(&:to_s).include?('origin')
+        @git.add_remote 'origin', options
+        info "Added remote origin #{options}"
+      elsif !@git.remotes.map(&:to_s).include?('origin')
+        raise "You must add a remote origin.\ne.g: wordsmith publish git@github.com:jassa/wordsmith-example.git" 
       end
 
-      @base = Git.open(local(".git"))
-
-      # Create gh-pages branch if necessary
-      if !@base.branches.local.collect{ |a| a.to_s }.include?("gh-pages")
-        create_gh_pages_branch
+      if @git.current_branch != 'master'
+        begin
+          @git.checkout 'master'
+          info "Switched to branch 'master'"
+        rescue
+          raise "You must be in the 'master' branch to publish"
+        end
       end
 
-      # Copy html files from master branch
-      @base.lib.checkout("master", :path => from_path)
+      html_dir = File.join('final', @name)
 
-      # add, commit and push changes, then get back to master
-      @base.add(".")
-      @base.commit("changes to #{@name} public site.")
-      @base.push("origin", "gh-pages")
-      @base.checkout("master")
-    end
+      unless File.exists?(File.join(html_dir, 'index.html'))
+        raise "Exiting.. Nothing to publish.\nHave you run 'wordsmith generate'?"
+      end
 
-    private
-
-    # Creates a repository's github page
-    # according to the instructions given at
-    # http://pages.github.com/#project_pages
-    def create_gh_pages_branch
-      @base.lib.change_head_branch("gh-pages")
+      # http://pages.github.com/#project_pages
+      `git symbolic-ref HEAD refs/heads/gh-pages`
+      info "Switched to branch 'gh-pages'"
       `rm .git/index`
       `git clean -fdx`
+      info "Removed files"        
+      `git checkout master #{html_dir}`
+      info "Copied files from 'master' #{html_dir}"
+      `mv #{html_dir}/* ./`
+      `rm -r final/`
+      `git add .`
+      `git rm -r final/*`
+      begin
+        @git.commit 'updating project page'
+        info "git commit -m 'updating project page'"
+      rescue Exception => e
+        if e.to_s =~ /nothing to commit/
+          raise 'Already up to date. Nothing to commit.'
+        else
+          raise e
+        end
+      end
+      @git.push 'origin', 'gh-pages'
+      info "git push origin gh-pages"
+      @git.checkout 'master'
+    rescue Exception => e
+      @git.checkout 'master' rescue nil
+      raise e
     end
   end
 end
