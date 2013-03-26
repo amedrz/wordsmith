@@ -8,7 +8,7 @@ class Wordsmith
       @output = local(File.join('final', @name))
       
       content_dir = local(File.join('content'))
-      @files = Dir.glob(content_dir + '/**/*.*').join(" \\\n")
+      @files = Dir.glob(content_dir + '/**/*.*').sort.join(" \\\n")
       
       if @files.empty?
         raise "Exiting.. Nothing to generate in #{content_dir}.\nHave you run 'wordsmith new'?"
