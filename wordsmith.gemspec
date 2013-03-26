@@ -1,26 +1,23 @@
-# encoding: utf-8
 $LOAD_PATH.unshift 'lib'
 require 'wordsmith/version'
 
-Gem::Specification.new do |s|
-  s.name        = "wordsmith"
-  s.version     = Wordsmith::VERSION
-  s.authors     = ["Amed Rodriguez", "Javier Saldana", "Rene Cienfuegos"]
-  s.email       = ["amed@tractical.com", "javier@tractical.com", "renecienfuegos@gmail.com"]
-  s.homepage    = "https://github.com/tractical/wordsmith"
-  s.summary     = "E-books publisher."
-  s.description = "Create, collaborate and publish e-books -- easily."
-  s.has_rdoc    = false
+Gem::Specification.new do |gem|
+  gem.name        = "wordsmith"
+  gem.version     = Wordsmith::VERSION
+  gem.authors     = ["Amed Rodriguez", "Javier Saldana", "Rene Cienfuegos"]
+  gem.email       = ["amed@tractical.com", "javier@tractical.com", "rene@tractical.com"]
+  gem.homepage    = "https://github.com/tractical/wordsmith"
+  gem.summary     = "The best way to publish ebooks. No, really."
+  gem.description = "Create, collaborate and publish ebooks easily."
+  gem.executables = "wordsmith"
+  gem.license     = "MIT"
 
-  s.rubyforge_project = "wordsmith"
+  gem.files       = `git ls-files`.split("\n")
+  gem.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
 
-  s.executables = %w( wordsmith )
-  s.files       = `git ls-files`.split("\n")
-  s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
-
-  s.add_dependency('nokogiri')
-  s.add_dependency('kindlegen')
-  s.add_dependency("git")
-  s.add_development_dependency("rake")
-  s.add_development_dependency("test-unit")
+  gem.add_dependency "nokogiri",  ">= 1.5.2"
+  gem.add_dependency "kindlegen", ">= 2.3.1"
+  gem.add_dependency "git"
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "test-unit"
 end

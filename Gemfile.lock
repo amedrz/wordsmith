@@ -2,17 +2,19 @@ PATH
   remote: .
   specs:
     wordsmith (0.0.1)
-      kindlegen
-      nokogiri
+      git
+      kindlegen (>= 2.3.1)
+      nokogiri (>= 1.5.2)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    kindlegen (2.3.1)
+    git (1.2.5)
+    kindlegen (2.8.0)
       systemu
-    nokogiri (1.5.2)
+    nokogiri (1.5.9)
     rake (0.9.2.2)
-    systemu (2.5.0)
+    systemu (2.5.2)
     test-unit (2.4.8)
 
 PLATFORMS
