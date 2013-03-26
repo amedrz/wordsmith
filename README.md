@@ -119,3 +119,7 @@ Git is an important part of this tool, a typical workflow should look like this:
     // This will create a branch called 'gh-pages' as github requires,
     // you'll still need to run $ git push origin master 
     // to push your book editables
+
+## License
+
+Wordsmith is released under the [MIT License](http://www.opensource.org/licenses/MIT).
