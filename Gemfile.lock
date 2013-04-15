@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wordsmith (0.0.1)
+    wordsmith (0.0.2)
       git
       kindlegen (>= 2.3.1)
       nokogiri (>= 1.5.2)
