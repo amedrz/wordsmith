@@ -26,7 +26,6 @@ class Wordsmith
     @subcommand = nil
     @args = []
     @options = {}
-    @name = File.basename(local('.'))
   end
 
   def info(message)
