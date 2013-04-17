@@ -15,7 +15,7 @@ context "wordsmith generate tests" do
     test "generates book.#{format}" do
       in_temp_dir do
         @wordsmith.init "book"
-        Dir.chdir("book") { Wordsmith.new.generate [format] }
+        Dir.chdir("book") { @wordsmith.generate [format] }
       end
     end
   end
@@ -24,14 +24,14 @@ context "wordsmith generate tests" do
   test "generates book.mobi" do
     in_temp_dir do
       @wordsmith.init "book"
-      Dir.chdir("book") { Wordsmith.new.generate ["epub", "mobi"] }
+      Dir.chdir("book") { @wordsmith.generate ["epub", "mobi"] }
     end
   end
 
   test "generates all" do
     in_temp_dir do
       @wordsmith.init "book"
-      Dir.chdir("book") { Wordsmith.new.generate }
+      Dir.chdir("book") { @wordsmith.generate }
     end
   end
 end

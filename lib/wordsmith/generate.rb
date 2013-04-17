@@ -5,6 +5,9 @@ class Wordsmith
 
     # generate the new media
     def generate(args = [])
+      @config = YAML::parse(File.open(local('.wordsmith'))).
+        transform rescue {}
+
       @output = local(File.join('final', @name))
       content_dir = local(File.join('content'))
 
