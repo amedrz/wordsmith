@@ -1,3 +1,7 @@
+gem 'sass', '>= 3.1'
+require 'sass/plugin'
+require 'debugger'
+
 class Wordsmith
   module Generate
     attr_reader :config, :files, :name, :output
@@ -45,7 +49,8 @@ class Wordsmith
     def to_html
       info "Generating html..."
 
-      `cp -r #{base(File.join("template", "assets"))} #{output}`
+      compile_stylesheets
+      copy_assets
 
       cmd = "pandoc -s -S --toc -o #{File.join(output, "index.html")} -t html"
       cmd += " -c #{stylesheet}" if stylesheet
@@ -115,6 +120,38 @@ class Wordsmith
       frg = Nokogiri::XML.fragment(builder.to_xml)
       nodes = frg.search(".//metadata/*")
       File.open(metadata, "w") { |f| f.write(nodes.to_xml) }
+    end
+
+    def compile_stylesheets
+      unless defined?(SASS_LOADED)
+        Sass::Plugin.reset!
+
+        css_location = File.join(output, "assets", "stylesheets")
+        scss_location = File.join(local("assets"), "stylesheets")
+
+        Sass::Plugin.options.merge!(:template_location => scss_location,
+          :css_location  => css_location,
+          :always_update => false,
+          :always_check  => true)
+      end
+
+      Sass::Plugin.on_updated_stylesheet do |template, css|
+        info "Compiling #{template} to #{css}"
+      end
+
+      Sass::Plugin.update_stylesheets
+    end
+
+    def copy_assets
+      assets = Dir.glob(File.join("assets", "**", "*"))
+      styles = Dir.glob(File.join("assets", "stylesheets", "**", "*.scss"))
+
+      copies = assets - styles
+      copies.each do |entry|
+        dest = File.join(output, File.dirname(entry))
+        FileUtils.mkdir_p dest
+        FileUtils.cp entry, dest unless File.directory?(entry)
+      end
     end
 
     def cover

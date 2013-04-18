@@ -18,6 +18,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency "nokogiri",  ">= 1.5.2"
   gem.add_dependency "kindlegen", ">= 2.3.1"
   gem.add_dependency "git"
+
+  gem.add_development_dependency "sass", ">= 3.1"
   gem.add_development_dependency "rake"
   gem.add_development_dependency "test-unit"
 end
