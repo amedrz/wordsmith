@@ -9,20 +9,12 @@ context "wordsmith sass tests" do
   test "compiles stylesheets directory" do
     in_temp_dir do
       wordsmith.init('w')
-      File.rename("w/assets/stylesheets/default.css",
-        "w/assets/stylesheets/default.scss")
+      File.rename("w/assets/stylesheets/_with_sass.scss",
+        "w/assets/stylesheets/with_sass.scss")
       Dir.chdir("w") { wordsmith.generate ["html"] }
       files = Dir.glob('w/**/*')
-      assert files.include? "w/final/w/assets/stylesheets/default.css"
+      assert files.include? "w/final/w/assets/stylesheets/master.css"
     end
   end
 
-  test "copies css files" do
-    in_temp_dir do
-      wordsmith.init('w')
-      Dir.chdir("w") { wordsmith.generate ["html"] }
-      files = Dir.glob('w/**/*')
-      assert files.include? "w/final/w/assets/stylesheets/default.css"
-    end
-  end
 end
