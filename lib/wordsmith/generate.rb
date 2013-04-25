@@ -1,6 +1,4 @@
-gem 'sass', '>= 3.1'
 require 'sass/plugin'
-require 'debugger'
 
 class Wordsmith
   module Generate
@@ -53,7 +51,7 @@ class Wordsmith
       copy_assets
 
       cmd = "pandoc -s -S --toc -o #{File.join(output, "index.html")} -t html"
-      cmd += " -c #{stylesheet}" if stylesheet
+      stylesheets.each { |stylesheet| cmd += " -c #{stylesheet}" }
       cmd += " -B #{header}" if header
       cmd += " -A #{footer}" if footer
       cmd += " \\\n#{files}"
@@ -68,7 +66,7 @@ class Wordsmith
       cmd = "pandoc -S -o #{output}.epub -t epub"
       cmd += " \\\n--epub-metadata=#{metadata}" if metadata
       cmd += " \\\n--epub-cover-image=#{cover}" if cover
-      cmd += " \\\n--epub-stylesheet=#{stylesheet}" if stylesheet
+      cmd += " \\\n--epub-stylesheet=#{epub_stylesheet}" if epub_stylesheet
       cmd += " \\\n#{files}"
       cmd
     end
@@ -146,7 +144,7 @@ class Wordsmith
       assets = Dir.glob(File.join("assets", "**", "*"))
       styles = Dir.glob(File.join("assets", "stylesheets", "**", "*.scss"))
 
-      copies = assets - styles
+      copies = assets - styles - [epub_stylesheet_location]
       copies.each do |entry|
         dest = File.join(output, File.dirname(entry))
         FileUtils.mkdir_p dest
@@ -158,6 +156,16 @@ class Wordsmith
       @cover ||= if config["cover"] && File.exists?(local(File.join(config["cover"])))
         local(File.join(config["cover"]))
       end
+    end
+
+    def epub_stylesheet
+      @epub_stylesheet ||= if File.exists?(epub_stylesheet_location)
+        local(epub_stylesheet_location)
+      end
+    end
+
+    def epub_stylesheet_location
+      File.join("assets", "stylesheets", "epub.css")
     end
 
     def footer
@@ -178,9 +186,11 @@ class Wordsmith
       end
     end
 
-    def stylesheet
-      @stylesheet ||= if config["stylesheet"] && File.exists?(local(config["stylesheet"]))
-        local(config["stylesheet"])
+    def stylesheets
+      @stylesheet ||= begin
+        styles = Dir.glob(File.join("assets", "stylesheets", "**", "*.css"))
+        partials = Dir.glob(File.join("assets", "stylesheets", "**", "_*.css"))
+        styles - partials - [epub_stylesheet_location]
       end
     end
 
