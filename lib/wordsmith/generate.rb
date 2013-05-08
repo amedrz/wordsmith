@@ -190,7 +190,9 @@ class Wordsmith
       @stylesheet ||= begin
         styles = Dir.glob(File.join(output, "assets", "stylesheets", "**", "*.css"))
         partials = Dir.glob(File.join(output, "assets", "stylesheets", "**", "_*.css"))
-        styles - partials - [epub_stylesheet_location]
+        all = styles - partials - [epub_stylesheet_location]
+
+        all.map { |css| css.gsub(output + "/", "") }
       end
     end
 

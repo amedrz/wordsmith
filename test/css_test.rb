@@ -36,7 +36,7 @@ context "wordsmith css tests" do
       Dir.chdir("w") { wordsmith.generate ["html"] }
       html_content = File.read("w/final/w/index.html")
 
-      assert html_content =~ /master\.css/
+      assert html_content =~ /="assets\/stylesheets\/master\.css"/
       assert html_content =~ /other\.css/
       assert !(html_content =~ /_a_css_partial\.css/)
     end
