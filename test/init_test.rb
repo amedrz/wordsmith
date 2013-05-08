@@ -31,4 +31,12 @@ context "wordsmith init tests" do
       assert files.include? "w/.gitignore"
     end
   end
+
+  test "creates git repo" do
+    in_temp_dir do
+      @wordsmith.init('w')
+      files = Dir.glob('w/**/*', File::FNM_DOTMATCH)
+      assert files.include? "w/.git"
+    end
+  end
 end

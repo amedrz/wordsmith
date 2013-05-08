@@ -1,15 +1,17 @@
 require 'rubygems'
+require 'bundler/setup'
+
 require 'nokogiri'
 require 'kindlegen'
 require 'yaml'
 require 'git'
 
+require 'fileutils'
+require 'pp'
+
 require 'wordsmith/init'
 require 'wordsmith/generate'
 require 'wordsmith/publish'
-
-require 'fileutils'
-require 'pp'
 
 class Wordsmith
   include Init

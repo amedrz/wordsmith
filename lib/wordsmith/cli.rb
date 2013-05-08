@@ -43,7 +43,7 @@ class Wordsmith
       end
 
       command :init, :new, :n do |opts|
-        opts.banner = "Usage: wordsmith new (directory)"
+        opts.banner = "Usage: wordsmith new [directory]"
         opts.description = "initialize a new book layout"
       end
 

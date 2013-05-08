@@ -1,3 +1,5 @@
+require 'sass/plugin'
+
 class Wordsmith
   module Generate
     attr_reader :config, :files, :name, :output
@@ -45,10 +47,11 @@ class Wordsmith
     def to_html
       info "Generating html..."
 
-      `cp -r #{base(File.join("template", "assets"))} #{output}`
+      compile_stylesheets
+      copy_assets
 
       cmd = "pandoc -s -S --toc -o #{File.join(output, "index.html")} -t html"
-      cmd += " -c #{stylesheet}" if stylesheet
+      stylesheets.each { |stylesheet| cmd += " -c #{stylesheet}" }
       cmd += " -B #{header}" if header
       cmd += " -A #{footer}" if footer
       cmd += " \\\n#{files}"
@@ -63,7 +66,7 @@ class Wordsmith
       cmd = "pandoc -S -o #{output}.epub -t epub"
       cmd += " \\\n--epub-metadata=#{metadata}" if metadata
       cmd += " \\\n--epub-cover-image=#{cover}" if cover
-      cmd += " \\\n--epub-stylesheet=#{stylesheet}" if stylesheet
+      cmd += " \\\n--epub-stylesheet=#{epub_stylesheet}" if epub_stylesheet
       cmd += " \\\n#{files}"
       cmd
     end
@@ -117,10 +120,52 @@ class Wordsmith
       File.open(metadata, "w") { |f| f.write(nodes.to_xml) }
     end
 
+    def compile_stylesheets
+      unless defined?(SASS_LOADED)
+        Sass::Plugin.reset!
+
+        css_location = File.join(output, "assets", "stylesheets")
+        sass_location = File.join(local("assets"), "stylesheets")
+
+        Sass::Plugin.options.merge!(:template_location => sass_location,
+          :css_location  => css_location,
+          :always_update => false,
+          :always_check  => true)
+      end
+
+      Sass::Plugin.on_updated_stylesheet do |template, css|
+        info "Compiling #{template} to #{css}"
+      end
+
+      Sass::Plugin.update_stylesheets
+    end
+
+    def copy_assets
+      assets = Dir.glob(File.join("assets", "**", "*"))
+      sass = Dir.glob(File.join("assets", "stylesheets", "**", "*.scss"))
+
+      copies = assets - sass - [epub_stylesheet_location]
+      copies.each do |entry|
+        dest = File.join(output, File.dirname(entry))
+        FileUtils.mkdir_p dest
+        FileUtils.cp entry, dest unless File.directory?(entry)
+      end
+    end
+
     def cover
       @cover ||= if config["cover"] && File.exists?(local(File.join(config["cover"])))
         local(File.join(config["cover"]))
       end
+    end
+
+    def epub_stylesheet
+      @epub_stylesheet ||= if File.exists?(epub_stylesheet_location)
+        local(epub_stylesheet_location)
+      end
+    end
+
+    def epub_stylesheet_location
+      File.join("assets", "stylesheets", "epub.css")
     end
 
     def footer
@@ -141,9 +186,13 @@ class Wordsmith
       end
     end
 
-    def stylesheet
-      @stylesheet ||= if config["stylesheet"] && File.exists?(local(config["stylesheet"]))
-        local(config["stylesheet"])
+    def stylesheets
+      @stylesheet ||= begin
+        styles = Dir.glob(File.join(output, "assets", "stylesheets", "**", "*.css"))
+        partials = Dir.glob(File.join(output, "assets", "stylesheets", "**", "_*.css"))
+        all = styles - partials - [epub_stylesheet_location]
+
+        all.map { |css| css.gsub(output + "/", "") }
       end
     end
 
