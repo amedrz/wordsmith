@@ -189,7 +189,8 @@ class Wordsmith
     def stylesheets
       @stylesheet ||= begin
         styles = Dir.glob(File.join(output, "assets", "stylesheets", "**", "*.css"))
-        styles - [epub_stylesheet_location]
+        partials = Dir.glob(File.join(output, "assets", "stylesheets", "**", "_*.css"))
+        styles - partials - [epub_stylesheet_location]
       end
     end
 
