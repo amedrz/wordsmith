@@ -125,9 +125,9 @@ class Wordsmith
         Sass::Plugin.reset!
 
         css_location = File.join(output, "assets", "stylesheets")
-        scss_location = File.join(local("assets"), "stylesheets")
+        sass_location = File.join(local("assets"), "stylesheets")
 
-        Sass::Plugin.options.merge!(:template_location => scss_location,
+        Sass::Plugin.options.merge!(:template_location => sass_location,
           :css_location  => css_location,
           :always_update => false,
           :always_check  => true)
@@ -142,9 +142,9 @@ class Wordsmith
 
     def copy_assets
       assets = Dir.glob(File.join("assets", "**", "*"))
-      styles = Dir.glob(File.join("assets", "stylesheets", "**", "*.scss"))
+      sass = Dir.glob(File.join("assets", "stylesheets", "**", "*.scss"))
 
-      copies = assets - styles - [epub_stylesheet_location]
+      copies = assets - sass - [epub_stylesheet_location]
       copies.each do |entry|
         dest = File.join(output, File.dirname(entry))
         FileUtils.mkdir_p dest
@@ -188,9 +188,8 @@ class Wordsmith
 
     def stylesheets
       @stylesheet ||= begin
-        styles = Dir.glob(File.join("assets", "stylesheets", "**", "*.css"))
-        partials = Dir.glob(File.join("assets", "stylesheets", "**", "_*.css"))
-        styles - partials - [epub_stylesheet_location]
+        styles = Dir.glob(File.join(output, "assets", "stylesheets", "**", "*.css"))
+        styles - [epub_stylesheet_location]
       end
     end
 
