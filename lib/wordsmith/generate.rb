@@ -50,7 +50,10 @@ class Wordsmith
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.metadata('xmlns:dc' => 'http://purl.org/dc/elements/1.1/') {
           xml['dc'].title { xml.text @config["title"] }
-          xml['dc'].creator { xml.text @config["author"] }
+          @config["author"].split(/\s*;\s*/).each do |creator|
+             xml['dc'].creator { xml.text creator }
+          end
+          #xml['dc'].creator { xml.text @config["author"] }
           xml['dc'].language { xml.text @config["language"] }
         }
       end
@@ -69,7 +72,10 @@ class Wordsmith
       footer = if File.exists?(local(File.join('layout', 'footer.html')))
         local(File.join('layout', 'footer.html'))
       end
-      `cp -r #{base(File.join('template', 'assets'))} #{html_dir}`
+      assets = if File.directory?(local(File.join('assets', '')))
+        local(File.join('assets', ''))
+      end
+      `cp -r #{assets} #{html_dir}`
       cmd = "pandoc -s -S --toc -o #{File.join(html_dir, 'index.html')} -t html"
       puts @config['stylesheet']
       cmd += " -c #{@config['stylesheet']}" if @stylesheet
