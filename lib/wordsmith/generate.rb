@@ -112,7 +112,7 @@ class Wordsmith
           xml["dc"].title { xml.text config["title"] }
           config["author"].split(/\s*;\s*/).each do |creator|
             xml["dc"].creator { xml.text creator }
-          end
+          end if config["author"]
           xml["dc"].language { xml.text config["language"] }
         }
       end

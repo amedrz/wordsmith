@@ -71,9 +71,11 @@ You can edit your book metadata inside the **.wordsmith** file:
     ---
     edition:    0.1
     language:   en
-    author:     Your Name
+    author:     Your Name; Additional author
     title:      Your Book Title
     cover:      assets/images/cover.jpg
+
+You can specify additional authors by separating them with a `;`
 
 The **layout** directory contains the header and footer for an
 online version of your book.
