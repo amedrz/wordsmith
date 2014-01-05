@@ -9,6 +9,7 @@ class Wordsmith
       @config = YAML::parse(File.open(local(".wordsmith"))).
         transform rescue {}
 
+      run_callback("before_all")
       content_dir = local(File.join("content"))
       @files = Dir.glob(content_dir + "/**/*.*").sort.join(" \\\n")
 
@@ -29,11 +30,13 @@ class Wordsmith
       formats.each do |format|
         raise "No generator found for #{format}" unless respond_to?("to_#{format}")
 
+        run_callback("before_#{format}")
         out = if format == "mobi"
           send("to_#{format}")
         else
           run_command(send("to_#{format}"))
         end
+        run_callback("after_#{format}")
 
         if $?.exitstatus == 0 && out.empty? || format == "mobi" && $?.exitstatus == 1
           info "Created #{output}" +
@@ -42,6 +45,11 @@ class Wordsmith
           raise "#{format} generator failed"
         end
       end
+      run_callback("after_all")
+    end
+
+    def run_callback(meth)
+      run_command(config[meth]) if config[meth]
     end
 
     def to_html
