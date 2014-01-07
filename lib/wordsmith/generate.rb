@@ -58,7 +58,7 @@ class Wordsmith
       compile_stylesheets
       copy_assets
 
-      cmd = "pandoc -s -S --toc -o #{File.join(output, "index.html")} -t html"
+      cmd = "pandoc -f markdown_mmd -s -S --toc -o #{File.join(output, "index.html")} -t html"
       stylesheets.each { |stylesheet| cmd += " -c #{stylesheet}" }
       cmd += " -B #{header}" if header
       cmd += " -A #{footer}" if footer
@@ -71,7 +71,7 @@ class Wordsmith
 
       build_metadata_xml
 
-      cmd = "pandoc -S -o #{output}.epub -t epub"
+      cmd = "pandoc -f markdown_mmd -S -o #{output}.epub -t epub"
       cmd += " \\\n--epub-metadata=#{metadata}" if metadata
       cmd += " \\\n--epub-cover-image=#{cover}" if cover
       cmd += " \\\n--epub-stylesheet=#{epub_stylesheet}" if epub_stylesheet
@@ -105,7 +105,7 @@ class Wordsmith
         end
       end
 
-      cmd = "pandoc -N --toc -o #{output}.pdf #{files}"
+      cmd = "pandoc -f markdown_mmd -N --toc -o #{output}.pdf #{files}"
       cmd += " --latex-engine=#{engine}" unless engine.empty?
       cmd
     end
