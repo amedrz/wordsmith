@@ -74,6 +74,9 @@ You can edit your book metadata inside the **.wordsmith** file:
     author:     Your Name; Additional author
     title:      Your Book Title
     cover:      assets/images/cover.jpg
+    font:       YOUR_FONT_FAMILY
+
+If you are using a language like Chinese, you should set the `font` property. Otherwise comment with a `#` at the beginning of the line.
 
 You can specify additional authors by separating them with a `;`
 
