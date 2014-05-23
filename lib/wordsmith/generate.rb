@@ -107,7 +107,7 @@ class Wordsmith
 
       cmd = "pandoc -f markdown_mmd -N --toc -o #{output}.pdf #{files}"
       cmd += " --latex-engine=#{engine}" unless engine.empty?
-      cmd += " -V mainfont='#{config['font']}'" unless (config['font'] || '').empty?
+      cmd += " -V mainfont='#{config['font']}'" unless (config.fetch('font', '')).empty?
       cmd
     end
 
