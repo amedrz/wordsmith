@@ -93,7 +93,7 @@ class Wordsmith
 
       engine = ""
 
-      [["pdftex", "pdflatex"], ["xetex", "xelatex"], "lualatex"].each do |e|
+      [["xetex", "xelatex"], ["pdftex", "pdflatex"], "lualatex"].each do |e|
         if e.is_a? Array
           cmd, name = e
         else
@@ -107,6 +107,7 @@ class Wordsmith
 
       cmd = "pandoc -f markdown_mmd -N --toc -o #{output}.pdf #{files}"
       cmd += " --latex-engine=#{engine}" unless engine.empty?
+      cmd += " -V mainfont='#{config['font']}'" unless (config['font'] || '').empty?
       cmd
     end
 
