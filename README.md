@@ -74,16 +74,20 @@ You can edit your book metadata inside the **.wordsmith** file:
     author:     Your Name; Additional author
     title:      Your Book Title
     cover:      assets/images/cover.jpg
-    font:       YOUR_FONT_FAMILY
 
-If you are using a language like Chinese, you should set the `font` property. Otherwise comment with a `#` at the beginning of the line.
+    # Other configuration options
+    # font:       YOUR_FONT_FAMILY
+
+If you are publishing in a language like Chinese, you should specify a `font`
+with Chinese glyphs.
 
 You can specify additional authors by separating them with a `;`
 
 The **layout** directory contains the header and footer for an
 online version of your book.
 
-The **assets** directory contains images and stylesheets. Wordsmith has built-in support for [Sass](http://sass-lang.com/).
+The **assets** directory contains images and stylesheets. Wordsmith has
+built-in support for [Sass](http://sass-lang.com/).
 
 In the **content** directory you can:
 

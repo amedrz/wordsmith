@@ -4,5 +4,7 @@ language:   en
 author:     Your Name
 title:      Your Book Title
 cover:      assets/images/cover.jpg
-# If you are using asia characters, you should set a font-family when generate pdf
+
+# Other configuration options
+# If you need to specify the font to use non-unicode characters (e.g. Chinese)
 # font:       HanaMinA
